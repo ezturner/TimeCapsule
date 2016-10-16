@@ -13,4 +13,58 @@
     tools:context="me.kevinkang.timecapsule.activities.NewCapsuleActivity"
     tools:showIn="@layout/activity_new_capsule">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/editName"/>
+
+            <TextView
+                android:text="Message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:scrollbars="vertical"
+                android:id="@+id/editMessage"/>
+
+            <Button
+                android:text="Add Recipient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonRecipient"/>
+
+            <CheckBox
+                android:text="Keep Hidden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkHidden"/>
+
+            <Button
+                android:text="Create Capsule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonCreate"
+                android:onClick="onClickCapsuleCreation"/>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
