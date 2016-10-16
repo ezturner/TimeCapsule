@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "783852459098",
+    "firebase_url": "https://time-capsule-f5de2.firebaseio.com",
+    "project_id": "time-capsule-f5de2",
+    "storage_bucket": "time-capsule-f5de2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783852459098:android:aea172c70754fb89",
+        "android_client_info": {
+          "package_name": "me.kevinkang.timecapsule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783852459098-0jfht3n0jdo803g16ua4ko76vrf7qstj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.kevinkang.timecapsule",
+            "certificate_hash": "FF8B1D6DF865759EB6F2C2AABC65E50200A2318A"
+          }
+        },
+        {
+          "client_id": "783852459098-4m7l6bc7apmo5fjipvu166gatogb7f0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg4MVf1Hhxq64IdiJ_vSH_9-kfapIbs6k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783852459098-4m7l6bc7apmo5fjipvu166gatogb7f0s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
