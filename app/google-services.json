@@ -15,6 +15,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "783852459098-59oq4b0i5vdsrnl8p7m2ng1nk2ji7j7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.kevinkang.timecapsule",
+            "certificate_hash": "73AB12C40E71F49AEA6B39B340519641FD4BCD11"
+          }
+        },
+        {
+          "client_id": "783852459098-0iaskf92uoutmif2ue2t1ca3jumelh7d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.kevinkang.timecapsule",
+            "certificate_hash": "C3D239B7BAD3AAE89AEBB89CDCD65213DB4230F6"
+          }
+        },
+        {
+          "client_id": "783852459098-0rf782ehdqr9pgtr1jl03t5d2sd1sdgn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.kevinkang.timecapsule",
+            "certificate_hash": "A3407AFE4F19D5A3DC53D0ECA60EF63483FF55E5"
+          }
+        },
+        {
+          "client_id": "783852459098-13dprq370dordqr6cj7i7kkq3gjgbmsp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.kevinkang.timecapsule",
+            "certificate_hash": "EB11CFDDADCD8C207A3086BD62EADC10059378B3"
+          }
+        },
+        {
           "client_id": "783852459098-0jfht3n0jdo803g16ua4ko76vrf7qstj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

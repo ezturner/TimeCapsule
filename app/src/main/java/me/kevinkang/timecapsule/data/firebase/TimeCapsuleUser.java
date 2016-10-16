@@ -55,6 +55,7 @@ public class TimeCapsuleUser {
         else {
             DatabaseReference test = mDatabase.child("users").child(id).child("capsules");
             test.addChildEventListener(childEventListener);
+           // capsules = FirebaseCapsule.getCapsules();
 
         }
     }
