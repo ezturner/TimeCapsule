@@ -6,42 +6,42 @@ import java.util.List;
  * Created by Work on 10/15/2016.
  */
 
-public interface Capsule {
+public abstract class Capsule {
 
     /**
      * Returns the name of the capsule
      * @return capsule
      */
-    String getName ();
+    public abstract String getName();
 
     /**
      * Returns the message of the capsule
      * @return message
      */
-    String getMessage();
+    public abstract String getMessage();
 
     /**
      * Returns the recipients of this Time Capsule
      * @return recipients
      */
-    List<Recipient> getRecipients();
+    public abstract List<Recipient> getRecipients();
 
     /**
      * Returns the list of attached Attachments of the Time Capsule
      * @return attachments
      */
-    List<Attachment> getAttachments();
+    public abstract List<Attachment> getAttachments();
 
     /**
      * Returns the date that the Capsule was created
      * @return creationDate
      */
-    long getCreationDate();
+    public abstract long getCreationDate();
 
     /**
      * Returns the date that the capsule will be delivered at
      * @return openDate
      */
-    long getOpenDate();
+    public abstract long getOpenDate();
 
 }

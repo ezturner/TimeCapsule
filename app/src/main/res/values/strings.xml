@@ -16,4 +16,6 @@
     </string>
     <string name="title_activity_capsule_detail">CapsuleDetailActivity</string>
     <string name="title_activity_new_capsule">NewCapsuleActivity</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+
 </resources>
