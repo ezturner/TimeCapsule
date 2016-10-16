@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        Log.d(TAG, "Signin : " + result.toString());
         if (result.isSuccess()) {
             // acct contains account details
             GoogleSignInAccount acct = result.getSignInAccount();
