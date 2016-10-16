@@ -9,8 +9,7 @@ import me.kevinkang.timecapsule.data.models.Recipient;
  */
 
 public class FirebaseCapsuleRecipient extends Recipient {
-    public static final String EMAIL = "email", PHONE = "phone";
-
+    private static final String EMAIL = "email", PHONE = "phone";
     private String email = null;
     private String name = null;
     private int phone = 0;
@@ -82,7 +81,7 @@ public class FirebaseCapsuleRecipient extends Recipient {
      */
     public boolean isValidEmail(String email) {
         // address must contain exactly 1 @
-        if (email.indexOf("@") == -1 || email.lastIndexOf("@") != email.indexOf("@"))
+        if (!email.contains("@") || email.lastIndexOf("@") != email.indexOf("@"))
             return false;
 
         //@ must not be the first or last character of the address
