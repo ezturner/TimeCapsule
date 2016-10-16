@@ -103,12 +103,13 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
     public FirebaseCapsule(String key) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference capsule =  mDatabase.child("capsules").child(key);
-        this.id = UUID.fromString(key);
+
+        /*this.id = UUID.fromString(key);
         this.name = capsule.child("name").toString();
         this.message = capsule.child("message").toString();
         this.openDate = Long.parseLong(capsule.child("date_to_open").toString());
         this.creationDate = Long.parseLong(capsule.child("date_created").toString());
-        capsule.addChildEventListener(recipientListener);
+        capsule.addChildEventListener(recipientListener);*/
 
     }
 
