@@ -1,10 +1,16 @@
 package me.kevinkang.timecapsule.data.firebase;
 
+import android.util.Log;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import me.kevinkang.timecapsule.data.models.Attachment;
 import me.kevinkang.timecapsule.data.models.Capsule;
@@ -15,6 +21,7 @@ import me.kevinkang.timecapsule.data.models.Recipient;
  */
 
 public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsule>  {
+    private UUID id = null;
     private String name;
     private String message;
     private long creationDate;
@@ -35,6 +42,7 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
             throw new IllegalArgumentException("name and recipients cannot be null," +
                     " openDate must be a valid time in the future");
         }
+        this.id = UUID.randomUUID();
         this.name = name;
         this.message = "";
         this.openDate = openDate;
@@ -91,6 +99,46 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         this.message = message;
         this.attachments.addAll(attachments);
     }
+
+    public FirebaseCapsule(String key) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference capsule =  mDatabase.child("capsules").child(key);
+        this.id = UUID.fromString(key);
+        this.name = capsule.child("name").toString();
+        this.message = capsule.child("message").toString();
+        this.openDate = Long.parseLong(capsule.child("date_to_open").toString());
+        this.creationDate = Long.parseLong(capsule.child("date_created").toString());
+        capsule.addChildEventListener(recipientListener);
+
+    }
+
+    ChildEventListener recipientListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            Log.d("FB capsule", dataSnapshot.getValue().toString());
+            recipients.add(new FirebaseCapsuleRecipient(dataSnapshot.getKey()));
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
     /**
      * Flags the capsule as hidden
