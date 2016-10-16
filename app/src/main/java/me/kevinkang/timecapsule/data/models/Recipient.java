@@ -4,16 +4,12 @@ package me.kevinkang.timecapsule.data.models;
  * Created by Work on 10/15/2016.
  */
 
-public interface Recipient {
+public abstract class Recipient {
 
-    int TEXT = 24;
-    int EMAIL = 48;
+    public abstract String getName();
 
-    String getPhoneNumber();
+    public abstract String getDestination();
 
-    String getEmail();
-
-    String getName();
-
-    int getType();
+    // indicates how to send the message
+    public abstract String getType();
 }

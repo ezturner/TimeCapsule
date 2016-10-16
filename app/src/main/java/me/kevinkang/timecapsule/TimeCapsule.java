@@ -19,4 +19,5 @@ public class TimeCapsule extends Application {
     public void onCreate(){
         applicationContext = getContext();
     }
+
 }
