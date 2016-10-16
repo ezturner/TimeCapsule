@@ -103,25 +103,18 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
 
     public FirebaseCapsule(final String key) {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("capsules");
-       // DatabaseReference capsule = mDatabase.child("capsules");
 
-
-
+        // get capsule with matching key
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot data) {
                 String searchKey = key.replaceAll("\"", "").trim();
 
-
                 for(DataSnapshot d: data.getChildren()) {
-
-
-                    Log.d("FB capsule" + searchKey + "  ", d.getKey().toString());
-                    Log.d("FB capsule", d.child("message").getValue().toString());
-
 
                     if (searchKey.equals(d.getKey().toString())) {
                         Log.d("Success!", d.child("message").toString());
+
                         id = UUID.fromString(searchKey);
                         name = d.child("name").getValue().toString();
                         message = d.child("message").getValue().toString();
@@ -129,30 +122,18 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
                         creationDate = Long.parseLong(d.child("date_created").getValue().toString());
                         recipients = new ArrayList<Recipient>();
                         for (DataSnapshot r: d.child("recipients").getChildren()) {
-                            recipients.add()
+                            recipients.add(new FirebaseCapsuleRecipient(r.getValue().toString()));
                         }
                     } else {
                         Log.d("FB Capsule", d.getKey().toString() + " " + searchKey);
                     }
                 }
-                //Log.d("FB capsule", data.child(key).toString());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-        Log.d("FB user", key);
-        this.id = UUID.fromString(key.replaceAll("\"", ""));
-       // this.name = capsule.child("name");
-       // this.message = capsule.child("message").toString();
-       // Log.d("FB Capsule", capsule.child("date_created").getKey());
-       //this.openDate = Long.parseLong(capsule.child("date_to_open").toString());
-       // this.creationDate = Long.parseLong(capsule.child("date_created").toString());
-      //  capsule.addChildEventListener(recipientListener);
-
     }
 
 

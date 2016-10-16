@@ -30,16 +30,13 @@ public class TimeCapsuleUser {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        id = DEFAULT_ID;
-        /*
         if (user != null) {
             id = user.getUid();
         } else {
             // No user is signed in, use default
             id = DEFAULT_ID;
-        } */
-        Log.d(TAG, "message");
+        }
+
         // get the user's name, replace with default if nobody is signed in
         name = user.getDisplayName();
         if (name == null)
@@ -55,8 +52,6 @@ public class TimeCapsuleUser {
         else {
             DatabaseReference test = mDatabase.child("users").child(id).child("capsules");
             test.addChildEventListener(childEventListener);
-           // capsules = FirebaseCapsule.getCapsules();
-
         }
     }
 

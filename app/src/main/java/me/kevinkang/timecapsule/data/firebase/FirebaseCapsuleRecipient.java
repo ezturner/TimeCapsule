@@ -56,7 +56,7 @@ public class FirebaseCapsuleRecipient extends Recipient {
     public FirebaseCapsuleRecipient(String key) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference recipient = mDatabase.child("recipients").child(key);
-        this.id = UUID.fromString(key);
+        this.id = UUID.fromString(key.replaceAll("\"", ""));
         this.name = recipient.child("email").toString();
         this.phone = Integer.parseInt(recipient.child("phone").toString());
         this.type = recipient.child("type").toString();
