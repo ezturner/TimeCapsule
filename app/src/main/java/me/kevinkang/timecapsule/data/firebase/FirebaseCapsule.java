@@ -1,5 +1,8 @@
 package me.kevinkang.timecapsule.data.firebase;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,8 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
     private long openDate;
     private List<Recipient> recipients;
     private List<Attachment> attachments;
-
+    private boolean hidden;
+    private DatabaseReference mDatabase;
 
     /**
      * Constructs a new FirebaseCapsule with an empty message and attachment list
@@ -26,7 +30,7 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
      * @param openDate The date the capsule will open on
      * @param recipients The list of people who will receive the capsule
      */
-    public FirebaseCapsule(String name, long openDate, List<Recipient> recipients) {
+    private FirebaseCapsule(String name, long openDate, List<Recipient> recipients) {
         if (name == null ||openDate <= System.currentTimeMillis() || recipients == null) {
             throw new IllegalArgumentException("name and recipients cannot be null," +
                     " openDate must be a valid time in the future");
@@ -37,6 +41,8 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         this.creationDate = System.currentTimeMillis();
         this.recipients = recipients;
         attachments = new ArrayList<Attachment>();
+        hidden = false;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     /**
@@ -84,6 +90,55 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         }
         this.message = message;
         this.attachments.addAll(attachments);
+    }
+
+    /**
+     * Flags the capsule as hidden
+     */
+    public void setHidden() {
+        hidden = true;
+    }
+
+    /**
+     * Flags the capsule as visible (this is the default setting)
+     */
+    public void setVisible() {
+        hidden = false;
+    }
+
+    public void setMessage(String message) {
+        if (message == null)
+            throw new IllegalArgumentException("message cannot be null");
+        this.message = message;
+    }
+
+    public void setName(String name) {
+        if (name == null)
+            throw new IllegalArgumentException("name cannot be null");
+        this.name = name;
+    }
+
+    public void setRecipients(List<Recipient> recipients) {
+        if (recipients == null || recipients.size() == 0)
+            throw new IllegalArgumentException("recipients muist be a valid list");
+        this.recipients = recipients;
+    }
+
+    public void addRecipients(Recipient r) {
+        if (r == null)
+            throw new IllegalArgumentException("cannot add null recipient");
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        if (attachments == null || attachments.size() == 0)
+            throw new IllegalArgumentException("attachments must be a valid list");
+        this.attachments = attachments;
+    }
+
+    public void addAttachments(Attachment a) {
+        if (a == null)
+            throw new IllegalArgumentException("cannot add null attachment");
+        this.attachments.add(a);
     }
 
     /**
