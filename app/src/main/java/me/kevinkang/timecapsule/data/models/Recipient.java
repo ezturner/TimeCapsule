@@ -6,14 +6,10 @@ package me.kevinkang.timecapsule.data.models;
 
 public interface Recipient {
 
-    int TEXT = 24;
-    int EMAIL = 48;
-
-    String getPhoneNumber();
-
-    String getEmail();
-
     String getName();
 
-    int getType();
+    String getDestination();
+
+    // indicates how to send the message
+    String getType();
 }
