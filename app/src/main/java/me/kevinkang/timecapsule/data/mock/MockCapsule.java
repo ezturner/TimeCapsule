@@ -10,7 +10,7 @@ import me.kevinkang.timecapsule.data.models.Recipient;
  * Created by Work on 10/15/2016.
  */
 
-public class MockCapsule implements Capsule {
+public class MockCapsule extends Capsule {
 
     @Override
     public String getName() {
