@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="me.kevinkang.timecapsule.activities.MainActivity">
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> eb0abc691c4e49b33828c0fd949fdff682bc3580
     <android.support.v7.widget.RecyclerView
         android:layout_alignParentTop="true"
         android:layout_marginBottom="8dp"
@@ -16,5 +19,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+<<<<<<< HEAD
+=======
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+>>>>>>> eb0abc691c4e49b33828c0fd949fdff682bc3580
 
 </RelativeLayout>

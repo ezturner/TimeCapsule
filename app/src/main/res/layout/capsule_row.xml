@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:id="@+id/capsule_row_layout"
     android:layout_height="@dimen/capsule_row_height"
-    android:onClick="onFriendClick"
+    android:onClick="onCapsuleClick"
     android:layout_marginEnd="72dp"
     >
 

@@ -20,4 +20,5 @@ public interface User {
      * @return returns an ordered Set of Capsules.
      */
     Set<FirebaseCapsule> getCapsules();
+
 }

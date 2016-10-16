@@ -2,6 +2,11 @@ package me.kevinkang.timecapsule.data.firebase;
 
 import android.telephony.PhoneNumberUtils;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.UUID;
+
 import me.kevinkang.timecapsule.data.models.Recipient;
 
 /**
@@ -10,10 +15,12 @@ import me.kevinkang.timecapsule.data.models.Recipient;
 
 public class FirebaseCapsuleRecipient extends Recipient {
     private static final String EMAIL = "email", PHONE = "phone";
+    private UUID id = null;
     private String email = null;
     private String name = null;
     private int phone = 0;
     private String type = null; // the notification method
+    private DatabaseReference mDatabase;
 
     /**
      * Construct a new Recipient with an email address
@@ -24,6 +31,7 @@ public class FirebaseCapsuleRecipient extends Recipient {
         if (name == null || email == null) {
             throw new IllegalArgumentException("name and email must not be null");
         }
+        this.id = UUID.randomUUID();
         this.email = email;
         this.name = name;
         type = EMAIL;
@@ -39,9 +47,19 @@ public class FirebaseCapsuleRecipient extends Recipient {
             throw new IllegalArgumentException("name must not be null" +
                     " and phone number must be valid");
         }
+        this.id = UUID.randomUUID();
         this.name = name;
         this.phone = phone;
         type = PHONE;
+    }
+
+    public FirebaseCapsuleRecipient(String key) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference recipient = mDatabase.child("recipients").child(key);
+        this.id = UUID.fromString(key);
+        this.name = recipient.child("email").toString();
+        this.phone = Integer.parseInt(recipient.child("phone").toString());
+        this.type = recipient.child("type").toString();
     }
 
     /**

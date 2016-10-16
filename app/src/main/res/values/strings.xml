@@ -18,4 +18,7 @@
     <string name="title_activity_new_capsule">NewCapsuleActivity</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
 
+    <string name="attachment_title">What would you like to attach?</string>
+    <string name="image">Image or Video</string>
+    <string name="file">File</string>
 </resources>
