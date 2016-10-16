@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,18 +101,80 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         this.attachments.addAll(attachments);
     }
 
-    public FirebaseCapsule(String key) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference capsule =  mDatabase.child("capsules").child(key);
 
-        /*this.id = UUID.fromString(key);
-        this.name = capsule.child("name").toString();
-        this.message = capsule.child("message").toString();
-        this.openDate = Long.parseLong(capsule.child("date_to_open").toString());
-        this.creationDate = Long.parseLong(capsule.child("date_created").toString());
-        capsule.addChildEventListener(recipientListener);*/
+    public FirebaseCapsule(final String key) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("capsules");
+       // DatabaseReference capsule = mDatabase.child("capsules");
+
+
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot data) {
+                String searchKey = key.replaceAll("\"", "").trim();
+
+
+                for(DataSnapshot d: data.getChildren()) {
+
+
+                    Log.d("FB capsule" + searchKey + "  ", d.getKey().toString());
+                    Log.d("FB capsule", d.child("message").getValue().toString());
+
+
+                    if (searchKey.equals(d.getKey().toString())) {
+                        Log.d("Success!", d.child("message").toString());
+                        id = UUID.fromString(searchKey);
+                        name = d.child("name").getValue().toString();
+                        message = d.child("message").getValue().toString();
+                        openDate = Long.parseLong(d.child("date_to_open").getValue().toString());
+                        creationDate = Long.parseLong(d.child("date_created").getValue().toString());
+                        recipients = new ArrayList<Recipient>();
+                        for (DataSnapshot r: d.child("recipients").getChildren()) {
+                            recipients.add()
+                        }
+                    } else {
+                        Log.d("FB Capsule", d.getKey().toString() + " " + searchKey);
+                    }
+                }
+                //Log.d("FB capsule", data.child(key).toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
+
+
+    ChildEventListener childListener = new ChildEventListener() {
+
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            Log.d("FB Capsule", dataSnapshot.getKey());
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
     ChildEventListener recipientListener = new ChildEventListener() {
         @Override
