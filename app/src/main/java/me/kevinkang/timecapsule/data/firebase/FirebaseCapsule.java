@@ -100,6 +100,48 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
     }
 
     /**
+     * Flags the capsule as visible (this is the default setting)
+     */
+    public void setVisible() {
+        hidden = false;
+    }
+
+    public void setMessage(String message) {
+        if (message == null)
+            throw new IllegalArgumentException("message cannot be null");
+        this.message = message;
+    }
+
+    public void setName(String name) {
+        if (name == null)
+            throw new IllegalArgumentException("name cannot be null");
+        this.name = name;
+    }
+
+    public void setRecipients(List<Recipient> recipients) {
+        if (recipients == null || recipients.size() == 0)
+            throw new IllegalArgumentException("recipients muist be a valid list");
+        this.recipients = recipients;
+    }
+
+    public void addRecipients(Recipient r) {
+        if (r == null)
+            throw new IllegalArgumentException("cannot add null recipient");
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        if (attachments == null || attachments.size() == 0)
+            throw new IllegalArgumentException("attachments must be a valid list");
+        this.attachments = attachments;
+    }
+
+    public void addAttachments(Attachment a) {
+        if (a == null)
+            throw new IllegalArgumentException("cannot add null attachment");
+        this.attachments.add(a);
+    }
+
+    /**
      * @return The capsule's name
      */
     public String getName() {
