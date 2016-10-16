@@ -1,4 +1,4 @@
-package me.kevinkang.timecapsule.data;
+package me.kevinkang.timecapsule.data.firebase;
 
 import android.telephony.PhoneNumberUtils;
 
@@ -8,13 +8,13 @@ import me.kevinkang.timecapsule.data.models.Recipient;
  * Created by Steven Austin on 10/15/2016.
  */
 
-public class FirebaseCapsuleRecipient implements Recipient {
+public class FirebaseCapsuleRecipient extends Recipient {
     public static final String EMAIL = "email", PHONE = "phone";
 
-    String email = null;
-    String name = null;
-    int phone = 0;
-    String type = null; // the notification method
+    private String email = null;
+    private String name = null;
+    private int phone = 0;
+    private String type = null; // the notification method
 
     /**
      * Construct a new Recipient with an email address

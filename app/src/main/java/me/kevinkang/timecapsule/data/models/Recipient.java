@@ -4,12 +4,12 @@ package me.kevinkang.timecapsule.data.models;
  * Created by Work on 10/15/2016.
  */
 
-public interface Recipient {
+public abstract class Recipient {
 
-    String getName();
+    public abstract String getName();
 
-    String getDestination();
+    public abstract String getDestination();
 
     // indicates how to send the message
-    String getType();
+    public abstract String getType();
 }
