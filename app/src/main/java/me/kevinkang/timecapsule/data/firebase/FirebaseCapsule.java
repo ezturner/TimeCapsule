@@ -285,6 +285,11 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         return this.openDate;
     }
 
+    @Override
+    public UUID getUUID() {
+        return id;
+    }
+
     /**
      * Standard compareTo method
      * @param other The FirebaseCapsule to compare to
