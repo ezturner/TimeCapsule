@@ -14,7 +14,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -25,9 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.URI;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +32,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import me.kevinkang.timecapsule.R;
-import me.kevinkang.timecapsule.data.firebase.FbUser;
 import me.kevinkang.timecapsule.data.firebase.FirebaseAttachment;
 import me.kevinkang.timecapsule.data.firebase.FirebaseCapsule;
 import me.kevinkang.timecapsule.data.firebase.FirebaseCapsuleRecipient;
@@ -46,7 +41,6 @@ public class NewCapsuleActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 24;
     private static final int PICKFILE_REQUEST_CODE = 12;
     // TODO: retrieve uid to get user
-    private FbUser user;
     private static final String TAG = "NewCapsuleActivity";
     List<Recipient> recipients;
 

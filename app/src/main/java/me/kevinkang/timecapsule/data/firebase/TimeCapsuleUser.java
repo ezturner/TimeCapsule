@@ -13,28 +13,39 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.kevinkang.timecapsule.data.models.Capsule;
+import me.kevinkang.timecapsule.data.models.User;
+
 /**
  * Created by Work on 10/15/2016.
  */
 
-public class TimeCapsuleUser {
+public class TimeCapsuleUser extends User{
     private static final String DEFAULT_ID = "0d5508b7-9131-4115-a9be-3878febb38fe";
     private static final String TAG = "TimeCapsuleUser";
     private String id = null;
     private String name = null;
-    private List<FirebaseCapsule> capsules;
+    private List<Capsule> capsules;
     private DatabaseReference mDatabase;
 
+    private static TimeCapsuleUser currentUser;
+
+    public static TimeCapsuleUser getCurrentUser(){
+        if(currentUser == null)
+            currentUser = new TimeCapsuleUser();
+        return currentUser;
+    }
+
     public TimeCapsuleUser() {
-        capsules = new ArrayList<FirebaseCapsule>();
+        capsules = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        currentUser = this;
         if (user != null) {
             id = user.getUid();
         } else {
-            // No user is signed in, use default
-            id = DEFAULT_ID;
+            return;
         }
 
         // get the user's name, replace with default if nobody is signed in
@@ -83,4 +94,13 @@ public class TimeCapsuleUser {
         }
     };
 
+    @Override
+    public void addCapsules(FirebaseCapsule capsule) {
+
+    }
+
+    @Override
+    public List<Capsule> getCapsules() {
+        return capsules;
+    }
 }

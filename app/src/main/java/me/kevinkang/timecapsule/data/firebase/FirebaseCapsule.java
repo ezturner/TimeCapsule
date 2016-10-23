@@ -2,7 +2,6 @@ package me.kevinkang.timecapsule.data.firebase;
 
 import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +29,7 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
     private long openDate;
     private List<Recipient> recipients;
     private List<Attachment> attachments;
-    private boolean hidden;
+    private boolean isHidden;
     private DatabaseReference mDatabase;
 
     /**
@@ -50,8 +49,8 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         this.openDate = openDate;
         this.creationDate = System.currentTimeMillis();
         this.recipients = recipients;
-        attachments = new ArrayList<Attachment>();
-        hidden = false;
+        attachments = new ArrayList<>();
+        isHidden = false;
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -173,8 +172,10 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         }
     }
 
+    /**
+     * Saves this FirebaseCapsule to the backend.
+     */
     public void save(){
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Retrieve the DatabaseReference for this capsule
@@ -193,18 +194,22 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
 
     }
 
+    public boolean isHidden(){
+        return isHidden;
+    }
+
     /**
-     * Flags the capsule as hidden
+     * Flags the capsule as isHidden
      */
     public void setHidden() {
-        hidden = true;
+        isHidden = true;
     }
 
     /**
      * Flags the capsule as visible (this is the default setting)
      */
     public void setVisible() {
-        hidden = false;
+        isHidden = false;
     }
 
     public void setMessage(String message) {

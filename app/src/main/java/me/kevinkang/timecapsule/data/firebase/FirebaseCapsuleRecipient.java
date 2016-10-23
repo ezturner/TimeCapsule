@@ -2,6 +2,7 @@ package me.kevinkang.timecapsule.data.firebase;
 
 import android.telephony.PhoneNumberUtils;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -90,6 +91,26 @@ public class FirebaseCapsuleRecipient extends Recipient {
      */
     public String getType() {
         return type;
+    }
+
+    @Override
+    public void update(DataSnapshot recipient) {
+
+    }
+
+    @Override
+    public String getId() {
+        return null;
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void delete() {
+
     }
 
     /**

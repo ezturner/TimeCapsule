@@ -1,5 +1,6 @@
 package me.kevinkang.timecapsule.data.models;
 
+import java.util.List;
 import java.util.Set;
 
 import me.kevinkang.timecapsule.data.firebase.FirebaseCapsule;
@@ -8,17 +9,17 @@ import me.kevinkang.timecapsule.data.firebase.FirebaseCapsule;
  * Created by Work on 10/15/2016.
  */
 
-public interface User {
+public abstract class User {
     /**
      * Adds capsule to an ordered Set
      * @param capsule capsule that will be inserted
      */
-    void addCapsules(FirebaseCapsule capsule);
+    public abstract void addCapsules(FirebaseCapsule capsule);
 
     /**
-     * Gets capsule to an ordered Set
-     * @return returns an ordered Set of Capsules.
+     * Returns a user's capsules
+     * @return returns an ordered List of Capsules.
      */
-    Set<FirebaseCapsule> getCapsules();
+    public abstract List<Capsule> getCapsules();
 
 }
