@@ -2,7 +2,6 @@ package me.kevinkang.timecapsule.data.firebase;
 
 import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +21,7 @@ import me.kevinkang.timecapsule.data.models.Recipient;
  */
 
 public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsule>  {
+    private static final String LOG_TAG = FirebaseCapsule.class.getSimpleName();
     private UUID id = null;
     private String name;
     private String message;
@@ -29,7 +29,7 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
     private long openDate;
     private List<Recipient> recipients;
     private List<Attachment> attachments;
-    private boolean hidden;
+    private boolean isHidden;
     private DatabaseReference mDatabase;
 
     /**
@@ -49,8 +49,8 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         this.openDate = openDate;
         this.creationDate = System.currentTimeMillis();
         this.recipients = recipients;
-        attachments = new ArrayList<Attachment>();
-        hidden = false;
+        attachments = new ArrayList<>();
+        isHidden = false;
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -101,34 +101,14 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         this.attachments.addAll(attachments);
     }
 
-    public FirebaseCapsule(final String key) {
+    public FirebaseCapsule(String key) {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("capsules");
 
         // get capsule with matching key
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot data) {
-                String searchKey = key.replaceAll("\"", "").trim();
-
-                for(DataSnapshot d: data.getChildren()) {
-
-                    if (searchKey.equals(d.getKey().toString())) {
-                        Log.d("Success!", d.child("message").toString());
-
-                        id = UUID.fromString(searchKey);
-                        name = d.child("name").getValue().toString();
-                        message = d.child("message").getValue().toString();
-                        openDate = Long.parseLong(d.child("date_to_open").getValue().toString());
-                        creationDate = Long.parseLong(d.child("date_created").getValue().toString());
-                        recipients = new ArrayList<Recipient>();
-                        for (DataSnapshot r: d.child("recipients").getChildren()) {
-                            //recipients.add()
-                            recipients.add(new FirebaseCapsuleRecipient(r.getValue().toString()));
-                        }
-                    } else {
-                        Log.d("FB Capsule", d.getKey().toString() + " " + searchKey);
-                    }
-                }
+                update(data);
             }
 
             @Override
@@ -137,75 +117,99 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         });
     }
 
+    private void update(DataSnapshot data) {
+        try {
+            if(data.child("name").exists())
+                this.name = (String) data.child("name").getValue();
 
-    ChildEventListener childListener = new ChildEventListener() {
+            if(data.child("message").exists())
+                this.message = (String) data.child("message").getValue();
 
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            Log.d("FB Capsule", dataSnapshot.getKey());
+            if(data.child("openDate").exists())
+                this.openDate = (long) data.child("openDate").getValue();
+
+            updateRecipients(data);
+            updateAttachments(data);
+        } catch (ClassCastException e){
+            e.printStackTrace();
+            Log.d(LOG_TAG, "The firebase backend's data model has a different type than this version!");
         }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
-
-    ChildEventListener recipientListener = new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            Log.d("FB capsule", dataSnapshot.getValue().toString());
-            recipients.add(new FirebaseCapsuleRecipient(dataSnapshot.getKey()));
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
+    }
 
     /**
-     * Flags the capsule as hidden
+     * Updates the local copy of the recipients from the firebase update
+     * @param data
+     */
+    private void updateRecipients(DataSnapshot data){
+        if(!data.child("recipients").exists())
+            return;
+
+        for(DataSnapshot recipient : data.child("recipients").getChildren()){
+            String recipientId = recipient.getKey();
+            for(Recipient localRecipient: this.recipients){
+                if (localRecipient.getId().equals(recipientId)) {
+                    localRecipient.update(recipient);
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates the local copy of the attachmetns from the firebase update
+     * @param data
+     */
+    private void updateAttachments(DataSnapshot data){
+        if(!data.child("attachments").exists())
+            return;
+
+        for(DataSnapshot recipient : data.child("attachments").getChildren()){
+            String attachmentId = recipient.getKey();
+            for(Attachment localAttachment: this.attachments){
+                if (localAttachment.getId().equals(attachmentId)) {
+                    localAttachment.update(recipient);
+                }
+            }
+        }
+    }
+
+    /**
+     * Saves this FirebaseCapsule to the backend.
+     */
+    public void save(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Retrieve the DatabaseReference for this capsule
+        DatabaseReference ref = database.getReference("capsules").child(id.toString());
+
+        ref.child("name").setValue(this.getName());
+        ref.child("message").setValue(this.getMessage());
+        ref.child("openDate").setValue(this.getOpenDate());
+        for(Recipient recipient: this.getRecipients()){
+            recipient.save();
+        }
+
+        for(Attachment attachment : this.getAttachments()){
+            attachment.save();
+        }
+
+    }
+
+    public boolean isHidden(){
+        return isHidden;
+    }
+
+    /**
+     * Flags the capsule as isHidden
      */
     public void setHidden() {
-        hidden = true;
+        isHidden = true;
     }
 
     /**
      * Flags the capsule as visible (this is the default setting)
      */
     public void setVisible() {
-        hidden = false;
+        isHidden = false;
     }
 
     public void setMessage(String message) {
@@ -229,6 +233,14 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
     public void addRecipients(Recipient r) {
         if (r == null)
             throw new IllegalArgumentException("cannot add null recipient");
+        recipients.add(r);
+    }
+
+    public void removeRecipient(Recipient r){
+        if(r == null)
+            throw new IllegalArgumentException("Cannot remove a null recipient");
+        recipients.remove(r);
+        r.delete();
     }
 
     public void setAttachments(List<Attachment> attachments) {
@@ -241,6 +253,13 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         if (a == null)
             throw new IllegalArgumentException("cannot add null attachment");
         this.attachments.add(a);
+    }
+
+    public void removeAttachment(Attachment a){
+        if(a == null)
+            throw new IllegalArgumentException("Cannot remove a null recipient");
+        attachments.remove(a);
+        a.delete();
     }
 
     /**

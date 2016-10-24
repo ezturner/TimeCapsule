@@ -8,15 +8,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.kevinkang.timecapsule.R;
+import me.kevinkang.timecapsule.data.CurrentUser;
 import me.kevinkang.timecapsule.data.firebase.TimeCapsuleUser;
 import me.kevinkang.timecapsule.data.mock.MockCapsule;
 import me.kevinkang.timecapsule.data.models.Capsule;
+import me.kevinkang.timecapsule.data.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager layoutManager;
     private CapsuleAdapter capsuleAdapter;
-    private TimeCapsuleUser capsuleUser;
+    private User capsuleUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +38,10 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        List<Capsule> capsuleList = new ArrayList<>();
+        capsuleUser = CurrentUser.getInstance();
 
-        for(int i = 0; i < 10; i++){
-            capsuleList.add(new MockCapsule());
-        }
-
-        capsuleAdapter = new CapsuleAdapter(capsuleList);
+        capsuleAdapter = new CapsuleAdapter(capsuleUser.getCapsules());
         recyclerView.setAdapter(capsuleAdapter);
-        capsuleUser = new TimeCapsuleUser();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,5 +56,13 @@ public class MainActivity extends AppCompatActivity {
     public void onCapsuleClick(View view){
         Intent mainIntent = new Intent(this, CapsuleDetailActivity.class);
         this.startActivity(mainIntent);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main_activity, menu);
+        return true;
     }
 }

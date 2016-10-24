@@ -21,4 +21,5 @@
     <string name="attachment_title">What would you like to attach?</string>
     <string name="image">Image or Video</string>
     <string name="file">File</string>
+    <string name="action_logout">Log out</string>
 </resources>
