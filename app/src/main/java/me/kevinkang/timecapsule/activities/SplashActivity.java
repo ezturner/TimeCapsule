@@ -24,29 +24,25 @@ public class SplashActivity extends AppCompatActivity  {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            /* New Handler to start the Menu-Activity
-                     * and close this Splash-Screen after some seconds.*/
-            new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                            /* Create an Intent that will start the Menu-Activity. */
-                    Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-                    SplashActivity.this.startActivity(mainIntent);
-                    SplashActivity.this.finish();
-                }
-            }, 2500);
+            startMainActivity();
         } else {
-            /* New Handler to start the Menu-Activity
-                     * and close this Splash-Screen after some seconds.*/
-            new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                            /* Create an Intent that will start the Menu-Activity. */
-                    Intent mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-                    SplashActivity.this.startActivity(mainIntent);
-                    SplashActivity.this.finish();
-                }
-            }, 2500);
+            startLoginActivity();
         }
+    }
+
+    /**
+     * If the user is logged in, start the main activity
+     */
+    private void startMainActivity(){
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        finish();
+    }
+
+    /**
+     * If the user is not logged in, start the login activity
+     */
+    private void startLoginActivity(){
+        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+        this.finish();
     }
 }

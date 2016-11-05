@@ -17,20 +17,21 @@ import me.kevinkang.timecapsule.data.models.Capsule;
 import me.kevinkang.timecapsule.data.models.Recipient;
 
 /**
+ * This is the implementation of a TimeCapsule Capsule that is contained in the Firebase Database
  * Created by Steven on 10/15/2016.
  */
 
 public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsule>  {
     private static final String LOG_TAG = FirebaseCapsule.class.getSimpleName();
-    private UUID id = null;
-    private String name;
-    private String message;
-    private long creationDate;
-    private long openDate;
+    private UUID id ;
+    private String name, message;
+    private long creationDate, openDate;
+
     private List<Recipient> recipients;
     private List<Attachment> attachments;
+
     private boolean isHidden;
-    private DatabaseReference mDatabase;
+    private DatabaseReference database;
 
     /**
      * Constructs a new FirebaseCapsule with an empty message and attachment list
@@ -51,7 +52,7 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
         this.recipients = recipients;
         attachments = new ArrayList<>();
         isHidden = false;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference();
     }
 
     /**
@@ -102,10 +103,10 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
     }
 
     public FirebaseCapsule(String key) {
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("capsules");
+        database = FirebaseDatabase.getInstance().getReference().child("capsules");
 
         // get capsule with matching key
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot data) {
                 update(data);
@@ -302,6 +303,11 @@ public class FirebaseCapsule extends Capsule implements Comparable<FirebaseCapsu
      */
     public long getOpenDate() {
         return this.openDate;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return id;
     }
 
     /**

@@ -120,7 +120,7 @@ public class NewCapsuleActivity extends AppCompatActivity {
         }
         long timeToOpen = System.currentTimeMillis() + 1000; // DUMMY DATA
         FirebaseCapsule capsule = new FirebaseCapsule(nameText, timeToOpen, recipients, messageText);
-        //user.addCapsules(capsule);
+        //user.addCapsule(capsule);
         // Firebase Auth
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("capsules");

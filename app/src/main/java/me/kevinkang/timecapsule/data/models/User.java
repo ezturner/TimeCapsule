@@ -14,7 +14,7 @@ public abstract class User {
      * Adds capsule to an ordered Set
      * @param capsule capsule that will be inserted
      */
-    public abstract void addCapsules(FirebaseCapsule capsule);
+    public abstract void addCapsule(Capsule capsule);
 
     /**
      * Returns a user's capsules

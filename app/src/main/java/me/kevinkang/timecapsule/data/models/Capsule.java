@@ -1,6 +1,8 @@
 package me.kevinkang.timecapsule.data.models;
 
+import java.security.Identity;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Work on 10/15/2016.
@@ -44,4 +46,5 @@ public abstract class Capsule {
      */
     public abstract long getOpenDate();
 
+    public abstract UUID getUUID();
 }

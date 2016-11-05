@@ -1,11 +1,16 @@
 package me.kevinkang.timecapsule.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -22,6 +27,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import me.kevinkang.timecapsule.BitmapUtils;
 import me.kevinkang.timecapsule.R;
 
 /**
@@ -31,15 +39,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 400;
+    private static final String LOG_TAG = LoginActivity.class.getSimpleName();
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    @BindView(R.id.background_image_view)
+    ImageView background;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -69,6 +82,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
+
+        // load the background image
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        Log.d(LOG_TAG , "X : " + size.x + " , Y: " + size.y);
+        Bitmap backgroundBitmap = BitmapUtils.decodeSampledBitmapFromResource(getResources(), R.drawable.background,
+                size.x / 4, size.y  / 4);
+        background.setImageBitmap(backgroundBitmap);
     }
 
     @Override

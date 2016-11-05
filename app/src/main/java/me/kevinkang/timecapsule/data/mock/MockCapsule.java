@@ -1,6 +1,7 @@
 package me.kevinkang.timecapsule.data.mock;
 
 import java.util.List;
+import java.util.UUID;
 
 import me.kevinkang.timecapsule.data.models.Attachment;
 import me.kevinkang.timecapsule.data.models.Capsule;
@@ -40,5 +41,10 @@ public class MockCapsule extends Capsule {
     @Override
     public long getOpenDate() {
         return 0;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return null;
     }
 }
